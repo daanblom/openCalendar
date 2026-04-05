@@ -1,0 +1,18 @@
+version: '3'
+services:
+  open-web-calendar:
+    image: niccokunzmann/open-web-calendar
+    ports:
+      - '5055:80'
+    environment:
+      - WORKERS=4
+    restart: unless-stopped
+    networks:
+      - owc-net
+    volumes:
+      - ./css:/app/open_web_calendar/static/css/dhtmlx/
+
+networks:
+  owc-net: # shield the OWC from accessing other services (SSRF protection)
+    ipam:
+      driver: default  # give OWC Internet access
